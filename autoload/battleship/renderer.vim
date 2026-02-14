@@ -90,7 +90,7 @@ export class Renderer implements IRenderer.IRenderer, IBoardRenderer.IBoardRende
 
         add(lines, '')
         add(lines, '     ╔════════════════════════════════════════════╗')
-        add(lines, '     ║         SELECT PLAYER LEVEL               ║')
+        add(lines, '     ║         SELECT PLAYER LEVEL                ║')
         add(lines, '     ╚════════════════════════════════════════════╝')
         add(lines, '')
 
