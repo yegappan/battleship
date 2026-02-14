@@ -1,0 +1,189 @@
+*battleship.txt*  Battleship Game in Vim
+
+CONTENTS                                                 *battleship-contents*
+  1. Introduction                                      |battleship-intro|
+  2. Getting Started                                   |battleship-start|
+  3. Game Phases                                       |battleship-phases|
+  4. Key Bindings                                      |battleship-keys|
+  5. Player Levels                                     |battleship-levels|
+  6. Game Variants                                     |battleship-variants|
+  7. Ships                                             |battleship-ships|
+  8. Game Rules                                        |battleship-rules|
+
+==============================================================================
+INTRODUCTION                                            *battleship-intro*
+
+Battleship is a classic naval combat game playable directly within Vim. You
+challenge the computer to a tactical battle, attempting to sink all of its
+ships before it sinks all of yours.
+
+The game features multiple difficulty levels and game variants to keep
+gameplay fresh and engaging.
+
+==============================================================================
+GETTING STARTED                                         *battleship-start*
+
+To start the game, use one of the following commands: >
+    :Battleship
+    :BattleshipNew
+<
+Both commands launch a new Battleship game in a new buffer.
+
+When you first run the game, you'll be prompted to select:
+  1. Your difficulty level (NOVICE or EXPERT)
+  2. A game variant (ONE SHOT, HIT BONUS, or SHIP COUNT)
+  3. Ship placement on your board
+  4. Then battle against the computer
+
+==============================================================================
+GAME PHASES                                             *battleship-phases*
+
+The game progresses through several phases:
+
+LEVEL SELECTION ~
+In this phase, use arrow keys (↑/↓) or j/k to navigate between difficulty
+levels, then press Enter or s to confirm your selection. See |battleship-levels| for
+details on each level.
+
+VARIANT SELECTION ~
+Choose your preferred game variant using arrow keys (↑/↓) or j/k, then press Enter
+or s to confirm. See |battleship-variants| for descriptions of each variant.
+
+PLACEMENT PHASE ~
+Place all five of your ships on the board before the battle begins. Use arrow
+keys or hjkl to position each ship, use Home, End, PageUp, PageDown (or 0, $,
+H, L) for quick navigation to board edges, r to rotate it between horizontal
+and vertical orientations, then Enter or s to place it. You'll be prompted for each ship
+in sequence.
+
+BATTLE PHASE ~
+Once all ships are placed, the tactical battle begins. Use arrow keys or hjkl
+to aim your cursor at enemy positions on the board, use Home, End, PageUp,
+PageDown (or 0, $, H, L) for quick navigation to board edges, Enter or s to fire, and
+ESC to end your turn. The computer will then take its turn based on the
+selected variant.
+
+GAMEOVER PHASE ~
+When all ships of one side are sunk, the game ends. Press n to start a new
+game or q to quit.
+
+==============================================================================
+KEY BINDINGS                                            *battleship-keys*
+
+Movement and Selection ~
+  Arrow Keys            Move up/down/left/right / Select in menus
+  k or Up               Move up / Select previous (in menus)
+  j or Down             Move down / Select next (in menus)
+  h or Left             Move left
+  l or Right            Move right
+  H                     Move to first row of current column
+  L                     Move to last row of current column
+  0 or Home             Move to first column of current row
+  $ or End              Move to last column of current row
+  PageUp                Move to first row of current column
+  PageDown              Move to last row of current column
+
+Actions ~
+  Enter or s            Place ship (placement phase) or shoot target (battle)
+  r                     Rotate ship between horizontal and vertical
+  ESC                   End your turn during battle
+
+Game Control ~
+  n                     Start a new game
+  q                     Quit game and close buffer
+
+These key mappings are buffer-local and only active during a Battleship game.
+
+==============================================================================
+PLAYER LEVELS                                           *battleship-levels*
+
+The difficulty levels determine how the computer AI plays:
+
+NOVICE                 *battleship-level-novice*
+The computer opponent shoots randomly at your board with no strategic
+analysis. Ideal for beginners or casual play.
+
+EXPERT                 *battleship-level-expert*
+The computer uses probability targeting based on previous shots and hits.
+It attempts to locate and sink your ships strategically. Recommended for
+experienced players seeking a challenge.
+
+==============================================================================
+GAME VARIANTS                                           *battleship-variants*
+
+The game supports three different rule variants:
+
+ONE SHOT               *battleship-variant-oneshot*
+You get exactly one shot per turn. The computer also gets one shot per turn
+regardless of its previous result. This is the classic battleship variant.
+
+HIT BONUS             *battleship-variant-hitbonus*
+When you hit a target, you earn an additional bonus shot. Each hit grants
+another bonus shot, allowing multiple consecutive shots as long as each is a
+hit. On a miss, your turn ends. The computer follows the same rules.
+
+SHIP COUNT            *battleship-variant-shipcount*
+The number of shots you can take per turn equals the number of unsunk enemy
+ships plus one. As you sink computer ships, you gain more shots per turn. This
+creates accelerating gameplay as both sides progress through the battle.
+
+==============================================================================
+SHIPS                                                   *battleship-ships*
+
+Your fleet consists of five ships:
+
+  Ship Type          Size (cells)
+  ─────────────────────────────
+  Carrier                    5
+  Battleship                 4
+  Cruiser                    3
+  Submarine                  3
+  Destroyer                  2
+
+During ship placement, you must position each of these ships on your 10x10
+board. Ships cannot overlap or extend beyond the board boundaries. Use h, j,
+k, l to move, r to rotate, and Enter or s to place each ship.
+
+==============================================================================
+GAME RULES                                              *battleship-rules*
+
+BASICS ~
+• The game is played on two 10x10 boards: yours and the computer's
+• Victory means sinking all enemy ships before your ships are sunk
+• Players alternate turns (player shoots, then computer shoots)
+• When a ship receives damage equal to its size, it's sunk
+
+SHIP PLACEMENT ~
+• Ships must be placed in a straight line (horizontal or vertical)
+• Ships cannot overlap or extend past board edges
+• All five ships must be placed before battle begins
+• You choose whether each ship is horizontal or vertical using r
+
+SHOOTING ~ 
+• On your turn, use h, j, k, l to aim your cursor at a target square
+• Use H, L, 0, $ for quick navigation to board edges
+• Press Enter or s to fire at the selected position
+• You can only shoot each position once
+• Shooting results are communicated in the status message
+• The number of shots per turn depends on the selected variant
+• Press ESC to voluntarily end your turn
+
+BATTLE RESOLUTION ~
+• Hitting water (empty space) is a MISS
+• Hitting a ship is a HIT
+• When a ship takes damage equal to its size, it's SUNK
+• Sinking enemy ships may grant bonus shots (depending on variant)
+• Battle continues until one side has all ships sunk
+
+BOARD SYMBOLS ~
+  ≈        Water (unshot)
+  ◦        Empty (previously shot, no hit)
+  ✓        Hit (direct strike on a ship)
+  ◇        Miss (shot but hit water)
+  ★        Ship preview (placement phase)
+  ◉        Cursor position
+  C, B, R, S, D  Ship letters (Carrier, Battleship, Cruiser, Submarine, Destroyer)
+  ✗        Sunk ship (confirmed sunk)
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
