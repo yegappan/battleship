@@ -1,27 +1,34 @@
-*battleship.txt*  Battleship Game in Vim
+*battleship.txt*  Battleship Game for Vim9
 
+================================================================================
 CONTENTS                                                 *battleship-contents*
-  1. Introduction                                      |battleship-intro|
-  2. Getting Started                                   |battleship-start|
-  3. Game Phases                                       |battleship-phases|
-  4. Key Bindings                                      |battleship-keys|
-  5. Player Levels                                     |battleship-levels|
-  6. Game Variants                                     |battleship-variants|
-  7. Ships                                             |battleship-ships|
-  8. Game Rules                                        |battleship-rules|
 
-==============================================================================
+  1. Introduction .......................... |battleship-intro|
+  2. Installation .......................... |battleship-install|
+  3. Commands ............................. |battleship-commands|
+  4. Getting Started ....................... |battleship-start|
+  5. Game Phases ........................... |battleship-phases|
+  6. Controls ............................. |battleship-controls|
+  7. Player Levels ......................... |battleship-levels|
+  8. Game Variants ......................... |battleship-variants|
+  9. Game Rules ........................... |battleship-rules|
+ 10. Strategy Tips ......................... |battleship-strategy|
+ 11. Vim9 Script Features ................. |battleship-vim9|
+
+================================================================================
 INTRODUCTION                                            *battleship-intro*
 
-Battleship is a classic naval combat game playable directly within Vim. You
-challenge the computer to a tactical battle, attempting to sink all of its
-ships before it sinks all of yours.
+Battleship is a classic naval combat game implemented in Vim9script. Challenge
+the computer to a tactical battle, attempting to sink all of its ships before
+it sinks all of yours. The game features multiple difficulty levels (Novice,
+Expert) and game variants (One Shot, Hit Bonus, Ship Count) to keep gameplay
+fresh and engaging.
 
-The game features multiple difficulty levels and game variants to keep
-gameplay fresh and engaging.
+The game runs in a centered popup window with two 10x10 boards: yours and your
+opponent's. Win by sinking all enemy ships before losing all of yours.
 
-==============================================================================
-INSTALLATION                                 	*battleship-installation*
+================================================================================
+INSTALLATION                                 	*battleship-install*
 
 Requirements~
 
@@ -97,7 +104,15 @@ Then run `:PlugInstall` and `:helptags ALL`
 For other plugin managers (Vundle, Pathogen, etc.), follow their standard
 installation procedures for local plugins.
 
-==============================================================================
+================================================================================
+COMMANDS                                            *battleship-commands*
+
+:Battleship
+    Start a new Battleship game. You will be prompted to select difficulty
+    level (Novice/Expert), game variant (One Shot/Hit Bonus/Ship Count),
+    and place your ships on the board.
+
+================================================================================
 GETTING STARTED                                         *battleship-start*
 
 To start the game, use the following command: >
@@ -111,7 +126,7 @@ When you first run the game, you'll be prompted to select:
   3. Ship placement on your board
   4. Then battle against the computer
 
-==============================================================================
+================================================================================
 GAME PHASES                                             *battleship-phases*
 
 The game progresses through several phases:
@@ -143,8 +158,8 @@ GAMEOVER PHASE ~
 When all ships of one side are sunk, the game ends. Press n to start a new
 game or q to quit.
 
-==============================================================================
-KEY BINDINGS                                            *battleship-keys*
+================================================================================
+CONTROLS                                             *battleship-controls*
 
 Movement and Selection ~
   Arrow Keys            Move up/down/left/right / Select in menus
@@ -170,7 +185,7 @@ Game Control ~
 
 These key mappings are buffer-local and only active during a Battleship game.
 
-==============================================================================
+================================================================================
 PLAYER LEVELS                                           *battleship-levels*
 
 The difficulty levels determine how the computer AI plays:
@@ -184,7 +199,7 @@ The computer uses probability targeting based on previous shots and hits.
 It attempts to locate and sink your ships strategically. Recommended for
 experienced players seeking a challenge.
 
-==============================================================================
+================================================================================
 GAME VARIANTS                                           *battleship-variants*
 
 The game supports three different rule variants:
@@ -203,9 +218,16 @@ The number of shots you can take per turn equals the number of unsunk enemy
 ships plus one. As you sink computer ships, you gain more shots per turn. This
 creates accelerating gameplay as both sides progress through the battle.
 
-==============================================================================
-SHIPS                                                   *battleship-ships*
+================================================================================
+GAME RULES                                              *battleship-rules*
 
+BASICS ~
+• The game is played on two 10x10 boards: yours and the computer's
+• Victory means sinking all enemy ships before your ships are sunk
+• Players alternate turns (player shoots, then computer shoots)
+• When a ship receives damage equal to its size, it's sunk
+
+SHIPS ~
 Your fleet consists of five ships:
 
   Ship Type          Size (cells)
@@ -215,19 +237,6 @@ Your fleet consists of five ships:
   Cruiser                    3
   Submarine                  3
   Destroyer                  2
-
-During ship placement, you must position each of these ships on your 10x10
-board. Ships cannot overlap or extend beyond the board boundaries. Use h, j,
-k, l to move, r to rotate, and Enter or s to place each ship.
-
-==============================================================================
-GAME RULES                                              *battleship-rules*
-
-BASICS ~
-• The game is played on two 10x10 boards: yours and the computer's
-• Victory means sinking all enemy ships before your ships are sunk
-• Players alternate turns (player shoots, then computer shoots)
-• When a ship receives damage equal to its size, it's sunk
 
 SHIP PLACEMENT ~
 • Ships must be placed in a straight line (horizontal or vertical)
@@ -261,5 +270,93 @@ BOARD SYMBOLS ~
   C, B, R, S, D  Ship letters (Carrier, Battleship, Cruiser, Submarine, Destroyer)
   ✗        Sunk ship (confirmed sunk)
 
-==============================================================================
+================================================================================
+STRATEGY TIPS                                              *battleship-strategy*
+
+Placement Strategy~
+  • Never place ships too close together
+  • Mix horizontal and vertical orientations randomly
+  • Avoid patterns (experienced opponents learn them)
+  • Place larger ships (Carrier, Battleship) away from edges
+  • Keep at least one empty row/column gap between ships
+
+Defensive Strategy~
+
+Against Novice (Random AI):
+  • Place ships anywhere - random shots won't find them efficiently
+  • Focus on efficient searching of opponent board
+  • Hunt down ships quickly for rapid wins
+
+Against Expert (Probability-Based AI):
+  • Opponent analyzes hit patterns to find your ships
+  • Spread ships across the board to avoid clustering
+  • Use asymmetric placement - breaks predictive patterns
+  • Place ships on board diagonal to maximize separation
+  • Avoid placing groups of ships in predictable zones
+
+Offensive (Attacking) Techniques~
+
+Initial Scanning Wave~
+  • Start with diagonal pattern across entire board (0,0 → 10,10)
+  • This efficiently covers maximum area with minimum shots
+  • Diagonal spacing reveals likely ship positions
+
+Once Hit:
+  • Check all four orthogonal directions from hit
+  • Narrow search methodically until ship is found
+  • Once found, sink it completely before moving to next ship
+  • Each sunk ship gives you one less opponent threat
+
+Variant-Specific Tactics~
+
+One Shot Variant:
+  • Equal footing with computer - pure deduction wins
+  • Efficient first-scan pattern is critical
+  • Don't waste shots on re-checking same areas
+
+Hit Bonus Variant:
+  • Chain hits for bonus shots - game becomes attack-focused
+  • Once you score a hit, capitalize immediately
+  • Computer gains bonuses too - defend ships strategically
+
+Ship Count Variant:
+  • Early ship sinkings give you more shots per turn
+  • Accelerates gameplay dramatically as battle progresses
+  • Sacrificing defensive board placement for aggressive board position can win
+  • Focus on sinking computer ships fast to gain advantage
+
+Tracking and Memory~
+  • Mark non-hits as ◦ to avoid re-checking
+  • Remember hit patterns from previous shots
+  • Anticipate ship orientation based on single hit
+  • Keep mental/visual map of high-probability search zones
+
+Common Mistakes to Avoid~
+  • Don't cluster ships - makes sinking one lose multiple
+  • Don't ignore non-hits - they define ship locations
+  • Don't waste bonus shots on areas you haven't mapped
+  • Don't place ships in corner/edge patterns (predictable)
+  • Don't forget that ships can't overlap or extend past board
+
+================================================================================
+VIM9 SCRIPT FEATURES                                   *battleship-vim9*
+
+This plugin demonstrates several modern Vim9script capabilities:
+
+  • Classes for game state, board management, AI, and cursor handling
+  • Interfaces for type-safe contracts (IRenderer, IComputerAI, IStatusRenderer)
+  • Enums for type-safe game states, directions, and ship types
+  • Strict type annotations throughout for type safety
+  • Modular architecture with clear separation of concerns
+  • Strategy pattern for different AI difficulty levels
+  • State machine implementation for game phases
+
+Complex game logic including:
+  • Probability-based targeting algorithm for Expert AI
+  • Ship placement validation and rotation mechanics
+  • Game state management across multiple phases
+  • Multi-dimensional board representation and traversal
+
+================================================================================
+
 vim:tw=78:ts=8:ft=help:norl:
