@@ -21,13 +21,89 @@ The game features multiple difficulty levels and game variants to keep
 gameplay fresh and engaging.
 
 ==============================================================================
+INSTALLATION                                 	*battleship-installation*
+
+Requirements~
+
+This plugin requires Vim 9.0 or later with Vim9 script support enabled.
+It will not work with Neovim or older versions of Vim.
+
+Installation~
+
+Using Git~
+If you have git installed, run the following command in your terminal:
+
+    Unix/Linux/macOS: >
+      git clone https://github.com/yegappan/battleship.git ~/.vim/pack/downloads/opt/battleship
+<
+    Windows (cmd.exe): >
+      git clone https://github.com/yegappan/battleship.git %USERPROFILE%\vimfiles\pack\downloads\opt\battleship
+<
+Using a ZIP file~
+If you prefer not to use Git:
+
+    Unix/Linux/macOS:
+    1. Create the destination directory: >
+
+	 mkdir -p ~/.vim/pack/downloads/opt/
+<
+    2. Download the plugin ZIP file from GitHub and extract its contents into
+       the directory created above.
+
+       *Note:* GitHub usually names the extracted folder battleship-main.
+       Rename it to battleship so the final path looks like this: >
+
+	 ~/.vim/pack/downloads/opt/battleship/
+	 ├── plugin/
+	 ├── autoload/
+	 └── doc/
+<
+    Windows (cmd.exe):
+    1. Create the destination directory: >
+
+	 if not exist "%USERPROFILE%\vimfiles\pack\downloads\opt" mkdir "%USERPROFILE%\vimfiles\pack\downloads\opt"
+<
+    2. Download the plugin ZIP file from GitHub and extract its contents into
+       that directory.
+
+       *Note:* Rename the extracted folder (usually battleship-main) to
+       battleship so the path matches: >
+
+	 %USERPROFILE%\vimfiles\pack\downloads\opt\battleship\
+	 ├── plugin/
+	 ├── autoload/
+	 └── doc/
+
+Finalizing Setup~
+Since this plugin is installed in the opt (optional) directory, it will not
+load automatically. Add the following line to your .vimrc (Unix) or _vimrc
+(Windows): >
+
+    packadd battleship
+<
+After adding the line, restart Vim and run the following command to enable the
+help documentation: >
+
+    :helptags ALL
+<
+Plugin Manager Installation~
+
+If using a plugin manager like vim-plug, add to your .vimrc or init.vim:
+>
+    Plug 'path/to/battleship'
+<
+Then run `:PlugInstall` and `:helptags ALL`
+
+For other plugin managers (Vundle, Pathogen, etc.), follow their standard
+installation procedures for local plugins.
+
+==============================================================================
 GETTING STARTED                                         *battleship-start*
 
-To start the game, use one of the following commands: >
+To start the game, use the following command: >
     :Battleship
-    :BattleshipNew
 <
-Both commands launch a new Battleship game in a new buffer.
+This command launches a new Battleship game in a new buffer.
 
 When you first run the game, you'll be prompted to select:
   1. Your difficulty level (NOVICE or EXPERT)
@@ -159,7 +235,7 @@ SHIP PLACEMENT ~
 • All five ships must be placed before battle begins
 • You choose whether each ship is horizontal or vertical using r
 
-SHOOTING ~ 
+SHOOTING ~
 • On your turn, use h, j, k, l to aim your cursor at a target square
 • Use H, L, 0, $ for quick navigation to board edges
 • Press Enter or s to fire at the selected position

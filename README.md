@@ -16,33 +16,86 @@ A classic naval combat game playable directly within Vim. Challenge the computer
 
 ## Installation
 
-### Using a Vim Plugin Manager
+### Using Git
+If you have git installed, run the following command in your terminal:
 
-#### vim-plug
-Add this line to your `~/.vimrc`:
+**Unix/Linux/macOS:**
 
-```vim
-Plug 'yegappan/battleship'
-```
-
-Then run `:PlugInstall` in Vim.
-
-### Manual Installation
-
-1. Clone the repository:
 ```bash
 git clone https://github.com/yegappan/battleship.git ~/.vim/pack/downloads/opt/battleship
 ```
+**Windows (cmd.exe):**
 
-2. Add the following line to your .vimrc file:
-```vim
+```cmd
+git clone https://github.com/yegappan/battleship.git %USERPROFILE%\vimfiles\pack\downloads\opt\battleship
+```
+
+### Using a ZIP file
+If you prefer not to use Git:
+
+**Unix/Linux/macOS:**
+
+Create the destination directory:
+
+```bash
+mkdir -p ~/.vim/pack/downloads/opt/
+```
+
+Download the plugin ZIP file from GitHub and extract its contents into the directory created above.
+
+*Note:* GitHub usually names the extracted folder battleship-main. Rename it to battleship so the final path looks like this:
+
+```plaintext
+~/.vim/pack/downloads/opt/battleship/
+├── plugin/
+├── autoload/
+└── doc/
+```
+
+**Windows (cmd.exe):**
+
+Create the destination directory:
+
+```cmd
+if not exist "%USERPROFILE%\vimfiles\pack\downloads\opt" mkdir "%USERPROFILE%\vimfiles\pack\downloads\opt"
+```
+
+Download the plugin ZIP file from GitHub and extract its contents into that directory.
+
+*Note:* Rename the extracted folder (usually battleship-main) to battleship so the path matches:
+
+```plaintext
+%USERPROFILE%\vimfiles\pack\downloads\opt\battleship\
+├── plugin/
+├── autoload/
+└── doc/
+```
+
+**Finalizing Setup**
+Since this plugin is installed in the opt (optional) directory, it will not load automatically. Add the following line to your .vimrc (Unix) or _vimrc (Windows):
+
+```viml
 packadd battleship
 ```
 
-3. Update Vim's help tags (optional but recommended):
-```vim
-:helptags ~/.vim/pack/downloads/opt/battleship/doc
+After adding the line, restart Vim and run the following command to enable the help documentation:
+
+```viml
+:helptags ALL
 ```
+
+### Plugin Manager Installation
+
+If using a plugin manager like vim-plug, add to your .vimrc or init.vim:
+
+   ```viml
+   Plug 'path/to/battleship'
+   ```
+
+Then run `:PlugInstall` and `:helptags ALL`
+
+For other plugin managers (Vundle, Pathogen, etc.), follow their standard
+installation procedures for local plugins.
 
 ## Getting Started
 
@@ -52,7 +105,6 @@ Use one of these commands in Vim:
 
 ```vim
 :Battleship
-:BattleshipNew
 ```
 
 Both commands launch a new game in a new buffer.
