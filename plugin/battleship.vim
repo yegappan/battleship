@@ -1,24 +1,19 @@
 vim9script
+# Battleship Game Plugin for Vim9
+# Naval combat strategy game - sink opponent ships before losing yours
+# Requires: Vim 9.0+
 
-# ============================================================================
-# FILE: plugin/battleship.vim
-# PURPOSE: Plugin entry point that defines Vim commands and initializes the game.
-# CONTENTS:
-#   - :Battleship commands for starting the game
-#   - Auto-start logic when file is sourced directly
-# KEY FUNCTIONS:
-#   - StartBattleship: Initializes and launches the battleship game
-# ============================================================================
-
-import '../autoload/battleship/main.vim' as Battleship
-
-export def StartBattleship()
-    Battleship.StartBattleship()
-enddef
-
-command! Battleship StartBattleship()
-
-# Auto-start if sourced directly
-if expand('%:p') == expand('<sfile>:p')
-    StartBattleship()
+if exists('g:loaded_battleship')
+  finish
 endif
+g:loaded_battleship = 1
+
+import autoload '../autoload/battleship/main.vim' as Battleship
+
+# Default difficulty level
+if !exists('g:battleship_difficulty')
+  g:battleship_difficulty = 'novice'
+endif
+
+# Command to start the game
+command! Battleship call Battleship.StartBattleship()
